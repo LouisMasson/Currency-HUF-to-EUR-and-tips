@@ -4,11 +4,20 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import type { ExchangeRateResponse } from "@shared/schema";
 
 export function TipCalculator() {
   const [billAmount, setBillAmount] = useState("");
   const [tipPercentage, setTipPercentage] = useState("10");
   const { toast } = useToast();
+
+  const { data: rateData } = useQuery<ExchangeRateResponse>({
+    queryKey: ["/api/exchange-rate"],
+    refetchInterval: 1000 * 60 * 60, // Refresh every hour
+  });
+
+  const rate = rateData?.rate;
 
   const handleBillAmountChange = (value: string) => {
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
@@ -23,20 +32,32 @@ export function TipCalculator() {
   };
 
   const calculateTip = () => {
-    if (!billAmount) return "0";
+    if (!billAmount || !rate) return { huf: "0", eur: "0" };
     const amount = parseFloat(billAmount);
-    if (isNaN(amount)) return "0";
-    const tip = (amount * parseInt(tipPercentage)) / 100;
-    return Math.round(tip).toLocaleString('hu-HU');
+    if (isNaN(amount)) return { huf: "0", eur: "0" };
+    const tipHuf = (amount * parseInt(tipPercentage)) / 100;
+    const tipEur = tipHuf / rate;
+    return {
+      huf: Math.round(tipHuf).toLocaleString('hu-HU'),
+      eur: tipEur.toFixed(2)
+    };
   };
 
   const calculateTotal = () => {
-    if (!billAmount) return "0";
+    if (!billAmount || !rate) return { huf: "0", eur: "0" };
     const amount = parseFloat(billAmount);
-    if (isNaN(amount)) return "0";
+    if (isNaN(amount)) return { huf: "0", eur: "0" };
     const tip = (amount * parseInt(tipPercentage)) / 100;
-    return Math.round(amount + tip).toLocaleString('hu-HU');
+    const totalHuf = amount + tip;
+    const totalEur = totalHuf / rate;
+    return {
+      huf: Math.round(totalHuf).toLocaleString('hu-HU'),
+      eur: totalEur.toFixed(2)
+    };
   };
+
+  const tip = calculateTip();
+  const total = calculateTotal();
 
   return (
     <motion.div 
@@ -101,14 +122,28 @@ export function TipCalculator() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="flex justify-between text-white">
-          <Label>Tip Amount:</Label>
-          <span className="font-medium">{calculateTip()} Ft</span>
+        <div className="space-y-2">
+          <Label className="text-white">Tip Amount:</Label>
+          <div className="flex justify-between items-center bg-white/5 rounded-lg px-4 py-2">
+            <span className="text-white/70">HUF:</span>
+            <span className="text-white font-medium">{tip.huf} Ft</span>
+          </div>
+          <div className="flex justify-between items-center bg-white/5 rounded-lg px-4 py-2">
+            <span className="text-white/70">EUR:</span>
+            <span className="text-white font-medium">€{tip.eur}</span>
+          </div>
         </div>
 
-        <div className="flex justify-between text-white">
-          <Label>Total Amount:</Label>
-          <span className="font-medium">{calculateTotal()} Ft</span>
+        <div className="space-y-2">
+          <Label className="text-white">Total Amount:</Label>
+          <div className="flex justify-between items-center bg-white/5 rounded-lg px-4 py-2">
+            <span className="text-white/70">HUF:</span>
+            <span className="text-white font-medium">{total.huf} Ft</span>
+          </div>
+          <div className="flex justify-between items-center bg-white/5 rounded-lg px-4 py-2">
+            <span className="text-white/70">EUR:</span>
+            <span className="text-white font-medium">€{total.eur}</span>
+          </div>
         </div>
       </motion.div>
     </motion.div>
