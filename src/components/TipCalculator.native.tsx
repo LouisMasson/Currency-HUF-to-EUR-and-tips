@@ -5,27 +5,57 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import type { ExchangeRateResponse } from './CurrencyConverter.native';
 
 export function TipCalculator() {
   const [billAmount, setBillAmount] = useState('');
   const [tipPercentage, setTipPercentage] = useState('10');
 
+  const { data: rateData, isLoading } = useQuery<ExchangeRateResponse>({
+    queryKey: ['/api/exchange-rate'],
+    refetchInterval: 1000 * 60 * 60, // Refresh every hour
+  });
+
+  const rate = rateData?.rate;
+
   const calculateTip = () => {
-    if (!billAmount) return '0';
+    if (!billAmount) return { huf: '0', eur: '0' };
     const amount = parseFloat(billAmount);
-    if (isNaN(amount)) return '0';
-    const tip = (amount * parseInt(tipPercentage)) / 100;
-    return Math.round(tip).toLocaleString('hu-HU');
+    if (isNaN(amount)) return { huf: '0', eur: '0' };
+    const tipHuf = (amount * parseInt(tipPercentage)) / 100;
+    const tipEur = rate ? tipHuf / rate : 0;
+    return {
+      huf: Math.round(tipHuf).toLocaleString('hu-HU'),
+      eur: tipEur.toFixed(2)
+    };
   };
 
   const calculateTotal = () => {
-    if (!billAmount) return '0';
+    if (!billAmount) return { huf: '0', eur: '0' };
     const amount = parseFloat(billAmount);
-    if (isNaN(amount)) return '0';
+    if (isNaN(amount)) return { huf: '0', eur: '0' };
     const tip = (amount * parseInt(tipPercentage)) / 100;
-    return Math.round(amount + tip).toLocaleString('hu-HU');
+    const totalHuf = amount + tip;
+    const totalEur = rate ? totalHuf / rate : 0;
+    return {
+      huf: Math.round(totalHuf).toLocaleString('hu-HU'),
+      eur: totalEur.toFixed(2)
+    };
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4F46E5" />
+      </View>
+    );
+  }
+
+  const tip = calculateTip();
+  const total = calculateTotal();
 
   return (
     <View style={styles.container}>
@@ -67,13 +97,28 @@ export function TipCalculator() {
       </View>
 
       <View style={styles.resultContainer}>
-        <View style={styles.resultRow}>
-          <Text style={styles.resultLabel}>Tip Amount:</Text>
-          <Text style={styles.resultValue}>{calculateTip()} Ft</Text>
+        <View style={styles.resultSection}>
+          <Text style={styles.resultHeader}>Tip Amount:</Text>
+          <View style={styles.currencyRow}>
+            <Text style={styles.currencyLabel}>HUF:</Text>
+            <Text style={styles.resultValue}>{tip.huf} Ft</Text>
+          </View>
+          <View style={styles.currencyRow}>
+            <Text style={styles.currencyLabel}>EUR:</Text>
+            <Text style={styles.resultValue}>€{tip.eur}</Text>
+          </View>
         </View>
-        <View style={styles.resultRow}>
-          <Text style={styles.resultLabel}>Total Amount:</Text>
-          <Text style={styles.resultValue}>{calculateTotal()} Ft</Text>
+
+        <View style={styles.resultSection}>
+          <Text style={styles.resultHeader}>Total Amount:</Text>
+          <View style={styles.currencyRow}>
+            <Text style={styles.currencyLabel}>HUF:</Text>
+            <Text style={styles.resultValue}>{total.huf} Ft</Text>
+          </View>
+          <View style={styles.currencyRow}>
+            <Text style={styles.currencyLabel}>EUR:</Text>
+            <Text style={styles.resultValue}>€{total.eur}</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -84,6 +129,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     gap: 24,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputContainer: {
     gap: 8,
@@ -130,19 +180,29 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   resultContainer: {
-    gap: 12,
+    gap: 16,
     paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: '#E5E7EB',
   },
-  resultRow: {
+  resultSection: {
+    gap: 8,
+  },
+  resultHeader: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 4,
+  },
+  currencyRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 8,
   },
-  resultLabel: {
+  currencyLabel: {
     fontSize: 14,
-    color: '#374151',
+    color: '#6B7280',
   },
   resultValue: {
     fontSize: 16,
