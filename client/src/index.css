@@ -8,21 +8,21 @@
   }
 
   body {
-    @apply font-sans antialiased bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 min-h-screen;
+    @apply font-sans antialiased bg-background min-h-screen text-foreground;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
+  .card-base {
+    @apply bg-card text-card-foreground shadow-sm border;
   }
 
-  .glass-input {
-    @apply bg-white/5 backdrop-blur-sm border-white/10 focus:border-white/30 transition-all duration-300;
+  .input-base {
+    @apply bg-background border-input hover:border-primary focus:border-primary transition-colors duration-200;
   }
 
-  .glass-button {
-    @apply hover:bg-white/20 active:bg-white/30 transition-all duration-300;
+  .button-base {
+    @apply hover:bg-accent active:bg-accent/90 transition-colors duration-200;
   }
 
   .tab-transition {

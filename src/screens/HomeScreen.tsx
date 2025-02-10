@@ -46,27 +46,27 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1F2937', // Neutral slate-800
+    backgroundColor: '#18181B', // Dark background
   },
   tabContainer: {
     flexDirection: 'row',
     marginHorizontal: 20,
     marginVertical: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 10,
-    padding: 5,
+    backgroundColor: '#27272A', // Slightly lighter dark
+    borderRadius: 8,
+    padding: 4,
   },
   tab: {
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 6,
   },
   activeTab: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: '#3F3F46', // Active tab background
   },
   tabText: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: '#A1A1AA',
     fontWeight: '600',
   },
   activeTabText: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: '#F8FAFC', // Light slate-50
+    backgroundColor: '#27272A', // Content area background
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
