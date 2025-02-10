@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Platform,
   StatusBar,
 } from 'react-native';
 import { CurrencyConverter } from '../components/CurrencyConverter.native';
@@ -47,7 +46,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4F46E5',
+    backgroundColor: '#1F2937', // Neutral slate-800
   },
   tabContainer: {
     flexDirection: 'row',
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   activeTab: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
   },
   tabText: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#F8FAFC', // Light slate-50
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
