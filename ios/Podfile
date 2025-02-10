@@ -11,9 +11,12 @@ target 'HufEurConverter' do
     :hermes_enabled => true
   )
 
-  # Add any additional pods here
+  # Add required pods for native functionality
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+  pod 'RNCNetInfo', :path => '../node_modules/@react-native-community/netinfo'
 
   target 'HufEurConverterTests' do
     inherit! :complete
@@ -25,5 +28,6 @@ target 'HufEurConverter' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end

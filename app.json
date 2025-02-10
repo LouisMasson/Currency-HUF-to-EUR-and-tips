@@ -11,7 +11,14 @@
     "ios": {
       "bundleIdentifier": "com.hufeurconverter",
       "buildNumber": "1",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [],
+        "LSApplicationQueriesSchemes": [],
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     }
   }
 }
