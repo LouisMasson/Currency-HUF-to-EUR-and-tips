@@ -23,24 +23,27 @@ export function TipCalculator() {
   };
 
   const calculateTip = () => {
-    if (!billAmount) return "0.00";
+    if (!billAmount) return "0";
     const amount = parseFloat(billAmount);
-    if (isNaN(amount)) return "0.00";
-    return ((amount * parseInt(tipPercentage)) / 100).toFixed(2);
+    if (isNaN(amount)) return "0";
+    const tip = (amount * parseInt(tipPercentage)) / 100;
+    // Round to whole numbers since we're dealing with HUF
+    return Math.round(tip).toLocaleString('hu-HU');
   };
 
   const calculateTotal = () => {
-    if (!billAmount) return "0.00";
+    if (!billAmount) return "0";
     const amount = parseFloat(billAmount);
-    if (isNaN(amount)) return "0.00";
-    const tip = parseFloat(calculateTip());
-    return (amount + tip).toFixed(2);
+    if (isNaN(amount)) return "0";
+    const tip = (amount * parseInt(tipPercentage)) / 100;
+    // Round to whole numbers since we're dealing with HUF
+    return Math.round(amount + tip).toLocaleString('hu-HU');
   };
 
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <Label>Bill Amount (EUR)</Label>
+        <Label>Bill Amount (HUF)</Label>
         <Input
           type="text"
           value={billAmount}
@@ -68,12 +71,12 @@ export function TipCalculator() {
       <div className="space-y-4 pt-4 border-t">
         <div className="flex justify-between">
           <Label>Tip Amount:</Label>
-          <span className="font-medium">€{calculateTip()}</span>
+          <span className="font-medium">{calculateTip()} Ft</span>
         </div>
-        
+
         <div className="flex justify-between">
           <Label>Total Amount:</Label>
-          <span className="font-medium">€{calculateTotal()}</span>
+          <span className="font-medium">{calculateTotal()} Ft</span>
         </div>
       </div>
     </div>
