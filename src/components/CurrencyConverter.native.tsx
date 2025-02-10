@@ -8,7 +8,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import type { ExchangeRateResponse } from '@shared/schema';
+
+export type ExchangeRateResponse = {
+  rate: number;
+};
 
 export function CurrencyConverter() {
   const [amount, setAmount] = useState('');
@@ -62,7 +65,7 @@ export function CurrencyConverter() {
           onChangeText={setAmount}
           keyboardType="numeric"
           placeholder="Enter amount"
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="#64748b"
         />
       </View>
 

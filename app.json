@@ -1,0 +1,17 @@
+{
+  "name": "HufEurConverter",
+  "displayName": "HUF-EUR Converter",
+  "expo": {
+    "name": "HUF-EUR Converter",
+    "slug": "huf-eur-converter",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.hufeurconverter",
+      "buildNumber": "1",
+      "supportsTablet": true
+    }
+  }
+}

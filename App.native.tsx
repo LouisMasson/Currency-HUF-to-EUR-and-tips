@@ -17,7 +17,7 @@ export default function App() {
             options={{
               title: 'HUF-EUR Converter',
               headerStyle: {
-                backgroundColor: '#4F46E5',
+                backgroundColor: '#27272A',
               },
               headerTintColor: '#fff',
             }}

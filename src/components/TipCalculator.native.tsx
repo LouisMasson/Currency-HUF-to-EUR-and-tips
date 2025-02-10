@@ -37,7 +37,7 @@ export function TipCalculator() {
           onChangeText={setBillAmount}
           keyboardType="numeric"
           placeholder="Enter bill amount"
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="#64748b"
         />
       </View>
 
