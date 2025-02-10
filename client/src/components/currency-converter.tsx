@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 export function CurrencyConverter() {
   const [amount, setAmount] = useState("");
@@ -27,7 +28,7 @@ export function CurrencyConverter() {
     if (!rate || !value) return "";
     const numValue = parseFloat(value);
     if (isNaN(numValue)) return "";
-    
+
     if (direction === "toEUR") {
       return (numValue / rate).toFixed(2);
     } else {
@@ -50,47 +51,63 @@ export function CurrencyConverter() {
   if (isLoading) {
     return (
       <div className="flex justify-center p-4">
-        <Loader2 className="h-6 w-6 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin text-white" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-sm text-muted-foreground text-center">
+    <motion.div 
+      className="space-y-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="text-sm text-white/80 text-center font-medium backdrop-blur-sm rounded-lg py-2">
         Current Rate: 1 EUR = {rate?.toFixed(2)} HUF
       </div>
-      
+
       <div className="space-y-4">
-        <div className="space-y-2">
-          <Label>{direction === "toEUR" ? "HUF Amount" : "EUR Amount"}</Label>
+        <motion.div 
+          className="space-y-2"
+          initial={{ x: -20 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Label className="text-white">{direction === "toEUR" ? "HUF Amount" : "EUR Amount"}</Label>
           <Input
             type="text"
             value={amount}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder="Enter amount"
+            className="glass-input text-white placeholder:text-white/50"
           />
-        </div>
+        </motion.div>
 
         <Button
           variant="outline"
-          className="w-full"
+          className="w-full glass-button text-white border-white/20 hover:border-white/40"
           onClick={handleSwitch}
         >
           <ArrowUpDown className="h-4 w-4 mr-2" />
           Switch Direction
         </Button>
 
-        <div className="space-y-2">
-          <Label>{direction === "toEUR" ? "EUR Amount" : "HUF Amount"}</Label>
+        <motion.div 
+          className="space-y-2"
+          initial={{ x: 20 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Label className="text-white">{direction === "toEUR" ? "EUR Amount" : "HUF Amount"}</Label>
           <Input
             type="text"
             value={convert(amount)}
             readOnly
-            className="bg-muted"
+            className="glass-input text-white bg-white/10"
           />
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

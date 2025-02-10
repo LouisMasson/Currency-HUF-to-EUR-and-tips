@@ -8,6 +8,24 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 min-h-screen;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
+  }
+
+  .glass-input {
+    @apply bg-white/5 backdrop-blur-sm border-white/10 focus:border-white/30 transition-all duration-300;
+  }
+
+  .glass-button {
+    @apply hover:bg-white/20 active:bg-white/30 transition-all duration-300;
+  }
+
+  .tab-transition {
+    @apply transition-all duration-500 ease-in-out transform;
   }
 }
