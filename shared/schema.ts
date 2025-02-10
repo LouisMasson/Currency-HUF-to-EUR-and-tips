@@ -12,5 +12,10 @@ export const insertExchangeRateSchema = createInsertSchema(exchangeRates).pick({
   rate: true,
 });
 
+export const exchangeRateResponseSchema = z.object({
+  rate: z.number(),
+});
+
 export type InsertExchangeRate = z.infer<typeof insertExchangeRateSchema>;
 export type ExchangeRate = typeof exchangeRates.$inferSelect;
+export type ExchangeRateResponse = z.infer<typeof exchangeRateResponseSchema>;

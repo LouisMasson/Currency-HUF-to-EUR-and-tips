@@ -6,13 +6,14 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import type { ExchangeRateResponse } from "@shared/schema";
 
 export function CurrencyConverter() {
   const [amount, setAmount] = useState("");
   const [direction, setDirection] = useState<"toEUR" | "toHUF">("toEUR");
   const { toast } = useToast();
 
-  const { data: rateData, isLoading } = useQuery({
+  const { data: rateData, isLoading } = useQuery<ExchangeRateResponse>({
     queryKey: ["/api/exchange-rate"],
     refetchInterval: 1000 * 60 * 60, // Refresh every hour
   });
