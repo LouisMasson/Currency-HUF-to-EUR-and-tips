@@ -41,29 +41,6 @@ A comprehensive currency converter and tip calculator application supporting bot
 - In-memory storage for rate caching
 - RESTful API endpoints
 
-## 💻 Installation
-
-### Web Application
-```bash
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
-
-### Mobile Application (iOS)
-```bash
-# Install dependencies
-npm install
-
-# Install iOS dependencies
-cd ios && pod install && cd ..
-
-# Start the application
-npm run ios
-```
-
 ## 🚀 Usage
 
 ### Currency Converter
@@ -79,37 +56,15 @@ npm run ios
 4. See the total amount including tip in both currencies
 
 ## 📱 Mobile Features
-
 - Native iOS user interface
 - Dark mode support
 - Gesture-based interactions
 - Offline capability
 - Responsive layouts for different screen sizes
 
-## ⚙️ Environment Setup
-
-### Required Environment Variables
-```
-DATABASE_URL=your_database_url (if using database)
-```
-
-### Development Environment
-- Node.js 18+
-- iOS development tools (for mobile)
-- Xcode 12+ (for iOS development)
-- CocoaPods (for iOS dependencies)
-
 ## 🌐 API Integration
 
 The application integrates with the Frankfurter API for real-time exchange rates between HUF and EUR, with rates updating hourly to ensure accuracy.
-
-## 📱 Mobile Screenshots
-
-[Coming Soon]
-
-## 💻 Web Screenshots
-
-[Coming Soon]
 
 ## 🔒 Security
 
